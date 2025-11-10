@@ -21,11 +21,17 @@
         {%- include social.html -%}
       </div>
       <div class="footer-col footer-col-3">
+        {% assign default_paths = site.pages | map: "path" %}
+        {% assign footer_paths = site.footer_pages | default: default_paths %}
         <ul>
-          <!-- <li><a href="/bylaws">Bylaws</a></li> -->
-          <li><a href="/membership/agreement">Operating Agreement</a></li>
-          <!-- <li><a href="/code-of-conduct">Code of Conduct</a></li> -->
-          <!-- <li><a href="/change-order">Submit a Change Order</a></li> -->
+          {% for path in footer_paths %}
+            {% assign footer_page = site.pages | where: "path", path | first %}
+            {% if footer_page.footer %}
+              <li>
+                <a class="page-link" href="{{ footer_page.permalink | relative_url }}">{{ footer_page.title | escape }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
         </ul>
       </div>
     </div>
